@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="The Reverse Recast Snowball: a practical Baby Step 6-style mortgage payoff strategy using a sinking-fund floor, lump-sum principal payments, and mortgage recasts." />
+  <title>The Reverse Recast Snowball | Mortgage Payoff Strategy</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #667085;
+      --cream: #fffaf3;
+      --paper: #ffffff;
+      --red: #c53b2f;
+      --red-dark: #9f2d24;
+      --navy: #17365d;
+      --gold: #f2b84b;
+      --green: #2f7d5b;
+      --line: #e8e2d8;
+      --soft: #f7f3ec;
+      --shadow: 0 12px 32px rgba(23,32,51,.10);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--cream);
+      line-height: 1.68;
+    }
+
+    a { color: var(--navy); }
+
+    .topbar {
+      background: var(--navy);
+      color: #fff;
+      padding: 13px 20px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      text-align: center;
+      font-size: .92rem;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 85% 10%, rgba(242,184,75,.24), transparent 32%),
+        linear-gradient(135deg, #fff 0%, #fff7eb 58%, #f8efe2 100%);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-inner {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 76px 0 62px;
+      display: grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap: 46px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--line);
+      font-weight: 800;
+      color: var(--red-dark);
+      font-size: .83rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.7rem, 7vw, 5.65rem);
+      line-height: .98;
+      margin: 20px 0 22px;
+      letter-spacing: -.045em;
+      max-width: 880px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #3f485a;
+      max-width: 760px;
+      margin: 0;
+    }
+
+    .hero-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+
+    .hero-card strong {
+      display: block;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.5rem;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+
+    .hero-card .formula {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 14px;
+      background: var(--navy);
+      color: #fff;
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    .container {
+      width: min(1040px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    article { padding: 54px 0 90px; }
+
+    .lede {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.45rem;
+      line-height: 1.55;
+      margin: 0 0 34px;
+    }
+
+    h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      line-height: 1.15;
+      margin: 52px 0 16px;
+      letter-spacing: -.02em;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      margin: 28px 0 8px;
+    }
+
+    p { margin: 0 0 18px; }
+
+    .callout {
+      margin: 34px 0;
+      padding: 25px 28px;
+      background: #fff;
+      border-left: 6px solid var(--red);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      box-shadow: 0 8px 24px rgba(23,32,51,.07);
+    }
+
+    .callout p:last-child { margin-bottom: 0; }
+
+    .rule {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 700;
+      font-size: 1.36rem;
+      color: var(--navy);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 18px;
+      margin: 28px 0 18px;
+    }
+
+    .step {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 7px 20px rgba(23,32,51,.06);
+    }
+
+    .step-num {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--red);
+      color: white;
+      font-weight: 900;
+      margin-bottom: 13px;
+    }
+
+    .step h3 { margin-top: 0; }
+
+    .example {
+      margin: 36px 0;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .example-header {
+      background: var(--navy);
+      color: white;
+      padding: 25px 28px;
+    }
+
+    .example-header h2 {
+      color: #fff;
+      margin: 0 0 8px;
+    }
+
+    .example-body { padding: 28px; }
+
+    .numbers {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 12px;
+      margin: 22px 0 26px;
+    }
+
+    .number-card {
+      background: var(--soft);
+      padding: 18px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+    }
+
+    .number-card .label {
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .number-card .value {
+      margin-top: 5px;
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--navy);
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0,1fr));
+      gap: 10px;
+      align-items: stretch;
+      margin: 30px 0;
+    }
+
+    .flow div {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 10px;
+      text-align: center;
+      font-weight: 800;
+      font-size: .88rem;
+      position: relative;
+    }
+
+    .flow div:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--red);
+      font-weight: 900;
+      z-index: 2;
+    }
+
+    .engines {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 18px;
+      margin: 26px 0;
+    }
+
+    .engine {
+      padding: 24px;
+      background: linear-gradient(180deg, #fff, #fbf7f1);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .engine .icon { font-size: 1.8rem; }
+    .engine h3 { margin-top: 8px; }
+
+    ul {
+      margin: 10px 0 24px;
+      padding-left: 1.35rem;
+    }
+
+    li { margin: 8px 0; }
+
+    .guardrails {
+      background: #fff7f1;
+      border: 1px solid #ecd7c8;
+      border-radius: 20px;
+      padding: 28px;
+      margin-top: 34px;
+    }
+
+    .guardrails h2 { margin-top: 0; }
+
+    .final {
+      margin-top: 50px;
+      padding: 38px;
+      border-radius: 24px;
+      background: var(--red);
+      color: white;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .final h2 {
+      color: white;
+      margin: 0 0 16px;
+    }
+
+    .final p {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.4rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .footer {
+      border-top: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      padding: 28px 20px 42px;
+      font-size: .88rem;
+    }
+
+    .footer-inner {
+      width: min(1040px, calc(100% - 20px));
+      margin: 0 auto;
+    }
+
+    .footer strong { color: var(--ink); }
+
+    @media (max-width: 820px) {
+      .hero-inner { grid-template-columns: 1fr; padding: 55px 0 45px; }
+      .steps, .numbers, .engines { grid-template-columns: 1fr 1fr; }
+      .flow { grid-template-columns: 1fr; }
+      .flow div:not(:last-child)::after {
+        content: "↓";
+        right: auto;
+        left: 50%;
+        top: auto;
+        bottom: -15px;
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .container, .hero-inner { width: min(100% - 28px, 1040px); }
+      .steps, .numbers, .engines { grid-template-columns: 1fr; }
+      h1 { font-size: 3rem; }
+      .hero p { font-size: 1.05rem; }
+      .final { padding: 28px 20px; }
+    }
+
+    @media print {
+      .topbar { display: none; }
+      body { background: #fff; }
+      .hero, .footer { background: #fff; }
+      .hero-card, .step, .example, .final { box-shadow: none; }
+      .final { background: #fff; color: var(--ink); border: 2px solid var(--red); }
+      .final h2 { color: var(--ink); }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">BABY STEP 6 COMMUNITY STRATEGY • MORTGAGE PAYOFF</div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <span class="eyebrow">🏠 Debt-Free Home Strategy</span>
+        <h1>The Reverse Recast Snowball</h1>
+        <p>A simple mortgage-payoff system that keeps a cash buffer, attacks principal in big chunks, and turns every recast into more fuel for the next payoff.</p>
+      </div>
+
+      <aside class="hero-card">
+        <strong>The core idea</strong>
+        <p>Lower the required mortgage payment—but never let your lifestyle see the savings.</p>
+        <div class="formula">Keep the floor → Sweep the surplus → Recast → Capture the savings → Repeat</div>
+      </aside>
+    </div>
+  </header>
+
+  <main class="container">
+    <article>
+      <p class="lede">When you reach Baby Step 6, the goal is straightforward: pay off the house early. The Reverse Recast Snowball is one way to attack the mortgage aggressively without draining the cash reserves that protect your household from irregular expenses.</p>
+
+      <div class="callout">
+        <p class="rule">The only hard rule: establish a sinking-fund floor and never spend below it on the mortgage.</p>
+        <p>The emergency fund stays separate. Everything above the sinking-fund floor is eventually available to attack principal.</p>
+      </div>
+
+      <h2>How the Reverse Recast Snowball Works</h2>
+      <p>The strategy combines three familiar ideas—a sinking fund, lump-sum principal payments, and mortgage recasting—but connects them in a way that creates an accelerating cash-flow loop.</p>
+
+      <section class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Finish the foundation first</h3>
+          <p>Before using this strategy, eliminate consumer debt, maintain a fully funded emergency fund, continue the retirement plan you have chosen, and make sure your mortgage servicer allows recasting.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Set a sinking-fund floor</h3>
+          <p>Choose an amount you want available for irregular but expected costs—vehicle repairs, insurance, home repairs, deductibles, appliances and similar expenses.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Send all extra margin there</h3>
+          <p>Budget surplus, raises, bonuses, commissions, overtime, refunds and other extra income accumulate in the sinking fund instead of leaking into lifestyle spending.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <h3>Sweep everything above the floor</h3>
+          <p>There is no arbitrary principal-payment amount. If your floor is $20,000 and the account grows to $50,000, you can send $30,000. If it reaches $70,000, you can send $50,000.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <h3>Recast after the principal reduction</h3>
+          <p>If your loan is eligible, the servicer recalculates the required principal-and-interest payment using the lower balance, existing rate and remaining term.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">6</div>
+          <h3>Capture the lower payment</h3>
+          <p>This is the key. Do not spend the savings from the recast. Redirect every dollar of the lower required payment into the sinking fund.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">7</div>
+          <h3>Build the fund again</h3>
+          <p>The account now grows from your original monthly surplus, recast savings, extra income and any interest earned while the money waits to be deployed.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">8</div>
+          <h3>Repeat until the house is yours</h3>
+          <p>Make the next large principal payment, recast again when appropriate, capture the new savings and continue until the remaining mortgage can be eliminated while preserving the sinking-fund floor.</p>
+        </div>
+      </section>
+
+      <div class="flow" aria-label="Reverse Recast Snowball flow">
+        <div>Build Cash</div>
+        <div>Keep the Floor</div>
+        <div>Attack Principal</div>
+        <div>Recast</div>
+        <div>Capture Savings & Repeat</div>
+      </div>
+
+      <h2>Why Call It a “Reverse Recast Snowball”?</h2>
+      <p>A mortgage recast normally gives a homeowner a lower required payment. That can easily become extra spending money.</p>
+      <p>The Reverse Recast Snowball flips that behavior around. The required payment goes down, but the household keeps living as though it never changed. The freed-up cash is redirected back into the next principal attack.</p>
+
+      <div class="callout">
+        <p class="rule">Your lifestyle never receives the recast savings.</p>
+        <p>The mortgage gives you breathing room, and you immediately turn that breathing room back against the mortgage.</p>
+      </div>
+
+      <section class="example">
+        <div class="example-header">
+          <h2>Example: A Family in Baby Step 6</h2>
+          <p>Here is a simplified illustration of how the method could work.</p>
+        </div>
+        <div class="example-body">
+          <div class="numbers">
+            <div class="number-card">
+              <div class="label">Mortgage Balance</div>
+              <div class="value">$250,000</div>
+            </div>
+            <div class="number-card">
+              <div class="label">Sinking-Fund Floor</div>
+              <div class="value">$20,000</div>
+            </div>
+            <div class="number-card">
+              <div class="label">Monthly Surplus</div>
+              <div class="value">$1,000</div>
+            </div>
+            <div class="number-card">
+              <div class="label">Cash Before Attack</div>
+              <div class="value">$50,000</div>
+            </div>
+          </div>
+
+          <h3>Mortgage Attack No. 1</h3>
+          <p>The family keeps its $20,000 sinking-fund floor and sends the remaining $30,000 to mortgage principal.</p>
+          <p>After the principal reduction, the family requests a recast. Suppose the required principal-and-interest payment falls by about $200 per month.</p>
+
+          <h3>The reverse snowball begins</h3>
+          <p>Instead of spending the $200, the family adds it to the original $1,000 monthly surplus. The sinking fund now grows by about <strong>$1,200 per month</strong>.</p>
+
+          <h3>Mortgage Attack No. 2</h3>
+          <p>When the sinking fund again grows substantially above the $20,000 floor, everything above the floor goes to principal. After another recast, suppose the payment falls by another $200.</p>
+          <p>The household now has roughly <strong>$1,400 per month</strong> flowing toward the next principal attack—without needing a raise and without increasing lifestyle spending.</p>
+        </div>
+      </section>
+
+      <h2>The Three Engines of the Snowball</h2>
+      <section class="engines">
+        <div class="engine">
+          <div class="icon">💵</div>
+          <h3>1. Household Margin</h3>
+          <p>The money your budget was already producing each month.</p>
+        </div>
+        <div class="engine">
+          <div class="icon">📉</div>
+          <h3>2. Recast Margin</h3>
+          <p>Every reduction in the required mortgage payment becomes additional fuel for the next payoff.</p>
+        </div>
+        <div class="engine">
+          <div class="icon">📈</div>
+          <h3>3. Savings Interest</h3>
+          <p>If the sinking fund is in an interest-bearing account, the money can earn something while it waits to be deployed.</p>
+        </div>
+      </section>
+
+      <h2>What Makes This Strategy Different?</h2>
+      <p>The purpose of recasting here is not simply to make the mortgage easier to afford. The lower required payment is intentionally turned into additional debt-payoff capacity.</p>
+      <p>The principal payment is what actually eliminates the debt. The recast is the mechanism that increases future monthly margin.</p>
+
+      <div class="guardrails">
+        <h2>Important Guardrails</h2>
+        <ul>
+          <li><strong>Keep the emergency fund separate.</strong> The sinking-fund floor is not a substitute for true emergency savings.</li>
+          <li><strong>Verify that your loan can be recast.</strong> Mortgage types, servicers, minimum principal reductions and fees vary.</li>
+          <li><strong>Confirm extra payments are applied to principal.</strong> The goal is to reduce the unpaid principal balance, not merely prepay future scheduled payments.</li>
+          <li><strong>Do not let the lower payment become lifestyle inflation.</strong> If spending rises by the same amount the mortgage falls, the snowball disappears.</li>
+          <li><strong>Use a floor appropriate for your household.</strong> One family may need $10,000; another may need $25,000 or more.</li>
+          <li><strong>Remember that recasting does not lower the interest rate.</strong> It recalculates the required payment based on the reduced balance and remaining term.</li>
+        </ul>
+      </div>
+
+      <h2>Why Someone in Baby Step 6 Might Consider It</h2>
+      <p>The Reverse Recast Snowball is not a loophole and it does not make mortgage interest disappear. It is a behavioral system designed to keep extra cash focused on a single goal.</p>
+      <p>You maintain liquidity. You keep a separate emergency reserve. You give extra income a job. You repeatedly reduce principal. And every time the mortgage gives you additional monthly breathing room, you turn that breathing room back against the mortgage.</p>
+
+      <div class="final">
+        <h2>The Reverse Recast Snowball</h2>
+        <p><strong>Keep the floor. Sweep the surplus. Recast the balance. Capture the savings. Repeat until the mortgage is gone.</strong></p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <strong>Community-created educational concept.</strong> This page is not affiliated with, endorsed by, or published by Ramsey Solutions. “Baby Steps” is referenced descriptively in the context of personal-finance education. Mortgage recast availability and requirements vary by loan and servicer. This material is educational and not individualized financial, tax or legal advice.
+    </div>
+  </footer>
+</body>
+</html>
