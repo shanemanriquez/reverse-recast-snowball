@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shane's 2021 Jeep Wrangler Build</title>
+
+<style>
+  :root {
+    /* Shane Signature Palette v1.0 */
+    --shane-midnight: #0B1F33;
+    --shane-navy: #123A5A;
+    --shane-blue: #1976A8;
+    --shane-sky: #5FA8D3;
+    --shane-steel: #7D8C99;
+
+    --shane-copper: #B87333;
+    --shane-sand: #D8C3A5;
+    --shane-olive: #66734A;
+
+    --shane-success: #2E7D5A;
+    --shane-warning: #C58A2A;
+    --shane-danger: #B64A4A;
+    --shane-info: #3D8DB8;
+
+    --shane-bg: #F5F7F9;
+    --shane-surface: #FFFFFF;
+    --shane-surface-alt: #EAF0F4;
+    --shane-border: #D4DEE6;
+    --shane-text: #18232D;
+    --shane-text-muted: #5D6B76;
+
+    --shane-dark-bg: #08131F;
+    --shane-dark-surface: #102536;
+    --shane-dark-surface-alt: #163249;
+    --shane-dark-border: #29465C;
+    --shane-dark-text: #F3F7FA;
+    --shane-dark-muted: #AAB8C3;
+
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 22px;
+    --shadow-soft: 0 12px 30px rgba(11, 31, 51, 0.10);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+                 "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background:
+      radial-gradient(circle at top right, rgba(95,168,211,.12), transparent 28rem),
+      var(--shane-bg);
+    color: var(--shane-text);
+    line-height: 1.55;
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 48px 24px 64px;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, var(--shane-midnight), var(--shane-navy));
+    color: white;
+    border-radius: var(--radius-lg);
+    padding: 42px;
+    box-shadow: var(--shadow-soft);
+    border-bottom: 5px solid var(--shane-copper);
+  }
+
+  .eyebrow {
+    color: var(--shane-sand);
+    text-transform: uppercase;
+    letter-spacing: .16em;
+    font-size: .78rem;
+    font-weight: 800;
+  }
+
+  h1 {
+    margin: 8px 0 12px;
+    font-size: clamp(34px, 5vw, 58px);
+    line-height: 1.03;
+    letter-spacing: -0.04em;
+  }
+
+  .sub {
+    max-width: 820px;
+    margin: 0;
+    font-size: 18px;
+    color: #DCEAF3;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 26px;
+  }
+
+  .stat {
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: var(--radius-md);
+    padding: 17px;
+  }
+
+  .stat .label {
+    font-size: .76rem;
+    color: var(--shane-dark-muted);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 700;
+  }
+
+  .stat .value {
+    font-size: 1.72rem;
+    font-weight: 850;
+    margin-top: 5px;
+    color: white;
+  }
+
+  .stat .small {
+    font-size: .82rem;
+    color: #DCEAF3;
+    margin-top: 2px;
+  }
+
+  section {
+    margin-top: 34px;
+    background: var(--shane-surface);
+    border: 1px solid var(--shane-border);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    box-shadow: 0 8px 24px rgba(11,31,51,.05);
+  }
+
+  h2 {
+    margin: 0 0 12px;
+    color: var(--shane-midnight);
+    font-size: 26px;
+    letter-spacing: -0.02em;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--shane-surface-alt);
+  }
+
+  h3 {
+    margin: 20px 0 8px;
+    font-size: 1.05rem;
+    color: var(--shane-navy);
+  }
+
+  .pill {
+    display: inline-block;
+    padding: 7px 11px;
+    border-radius: 999px;
+    border: 1px solid var(--shane-border);
+    color: var(--shane-navy);
+    font-size: .78rem;
+    font-weight: 700;
+    margin: 4px 6px 4px 0;
+    background: var(--shane-surface-alt);
+  }
+
+  .grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+
+  ul {
+    margin: 8px 0 0;
+    padding-left: 20px;
+  }
+
+  li {
+    margin: 6px 0;
+  }
+
+  li::marker {
+    color: var(--shane-blue);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+
+  th, td {
+    padding: 13px 11px;
+    border-bottom: 1px solid var(--shane-border);
+    vertical-align: top;
+  }
+
+  th {
+    text-align: left;
+    color: var(--shane-text-muted);
+    font-size: .76rem;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    background: var(--shane-surface-alt);
+  }
+
+  td.cost {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    font-weight: 800;
+    color: var(--shane-midnight);
+  }
+
+  tbody tr:hover {
+    background: rgba(95,168,211,.06);
+  }
+
+  tr.total td {
+    font-size: 1.08rem;
+    font-weight: 850;
+    border-top: 3px solid var(--shane-copper);
+    border-bottom: 0;
+    background: rgba(184,115,51,.06);
+  }
+
+  .note {
+    border-left: 4px solid var(--shane-warning);
+    padding: 12px 15px;
+    background: rgba(197,138,42,.08);
+    color: var(--shane-text);
+    border-radius: var(--radius-sm);
+    margin-top: 16px;
+  }
+
+  .good {
+    border-left-color: var(--shane-success);
+    background: rgba(46,125,90,.07);
+  }
+
+  .source {
+    color: var(--shane-text-muted);
+    font-size: .85rem;
+    margin-top: 12px;
+  }
+
+  .footer {
+    color: var(--shane-text-muted);
+    font-size: .8rem;
+    text-align: center;
+    margin-top: 30px;
+  }
+
+  strong {
+    color: var(--shane-midnight);
+  }
+
+  a {
+    color: var(--shane-blue);
+  }
+
+  @media (max-width: 820px) {
+    .stats { grid-template-columns: 1fr 1fr; }
+    .grid2 { grid-template-columns: 1fr; }
+    .hero { padding: 30px 24px; }
+  }
+
+  @media (max-width: 520px) {
+    .stats { grid-template-columns: 1fr; }
+    .wrap { padding: 24px 14px 40px; }
+    .hero, section { padding: 20px; }
+    th:nth-child(2), td:nth-child(2) { display: none; }
+  }
+
+  @media print {
+    body { background: white; }
+    .wrap { max-width: none; padding: 0; }
+    .hero, section { box-shadow: none; break-inside: avoid; }
+    .hero {
+      background: var(--shane-midnight) !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Shane's Jeep Build • Firecracker Red</div>
+    <h1>2021 Jeep Wrangler Unlimited Sport 4x4</h1>
+    <p class="sub">A desert-oriented, understated Baja / overland build focused on suspension control, steering durability, lighting, communications, recovery, and long-term reliability.</p>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="label">Actual Jeep Purchase Price</div>
+        <div class="value">$42,500.00</div>
+        <div class="small">Owner-confirmed</div>
+      </div>
+      <div class="stat">
+        <div class="label">Documented Build Spend</div>
+        <div class="value">$22,757.83</div>
+        <div class="small">Known upgrades / major components</div>
+      </div>
+      <div class="stat">
+        <div class="label">Documented All-In</div>
+        <div class="value">$65,257.83</div>
+        <div class="small">Purchase price + documented build spend</div>
+      </div>
+      <div class="stat">
+        <div class="label">Factory MSRP</div>
+        <div class="value">$42,625.00</div>
+        <div class="small">Original window sticker</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Added Jeep photo; all original formatting and content preserved -->
+  <div style="margin-top:34px;">
+    <img id="jeep-photo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Shane's Firecracker Red 2021 Jeep Wrangler Unlimited Sport 4x4 off-road in the desert" style="aspect-ratio:4/3;object-fit:cover;display:block;width:100%;height:auto;border-radius:var(--radius-lg);box-shadow:var(--shadow-soft);border:1px solid var(--shane-border);">
+    <script>
+    (async function(){
+      const files = ['jeep_image_01.txt','jeep_image_02.txt','jeep_image_03.txt','jeep_image_04.txt','jeep_image_05.txt','jeep_image_06.txt','jeep_image_07.txt','jeep_image_08.txt','jeep_image_09.txt','jeep_image_10.txt'];
+      const parts = await Promise.all(files.map(f => fetch(f).then(r => { if(!r.ok) throw new Error(`Image asset failed: ${f}`); return r.text(); })));
+      document.getElementById('jeep-photo').src = 'data:image/webp;base64,' + parts.join('');
+    })().catch(console.error);
+    </script>
+  </div>
+
+  <section>
+    <h2>Factory Configuration</h2>
+    <div class="grid2">
+      <div>
+        <h3>Core Vehicle</h3>
+        <ul>
+          <li>2021 Jeep Wrangler Unlimited Sport 4x4</li>
+          <li>Firecracker Red Clear-Coat</li>
+          <li>2.0L I4 DOHC direct-injection turbo</li>
+          <li>8-speed automatic 850RE transmission</li>
+          <li>Command-Trac part-time 4WD</li>
+          <li>Anti-spin rear differential</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Factory Packages / Options</h3>
+        <span class="pill">Customer Preferred Package 22S</span>
+        <span class="pill">Technology Group</span>
+        <span class="pill">Safety Group</span>
+        <span class="pill">Black 3-Piece Hard Top</span>
+        <span class="pill">Mopar Hardtop Headliner</span>
+        <span class="pill">Mopar All-Weather Mats</span>
+        <span class="pill">All-Terrain Tires (factory)</span>
+      </div>
+    </div>
+    <div class="source">Source: original Jeep window sticker. Factory MSRP: $42,625. Actual purchase price updated by Shane: $42,500.</div>
+  </section>
+
+  <section>
+    <h2>Current Build Inventory</h2>
+
+    <div class="grid2">
+      <div>
+        <h3>Suspension / Ride Control</h3>
+        <ul>
+          <li>FOX 2.0 Performance Series shocks</li>
+          <li>Approx. 2.5&quot; front / 2&quot; rear spacer lift</li>
+          <li>Shock extensions</li>
+          <li>Extended rear sway-bar component</li>
+          <li>FOX Factory Race Series rear bump-stop hardware</li>
+          <li>FOX 2.0 steering stabilizer</li>
+        </ul>
+
+        <h3>Wheels / Tires</h3>
+        <ul>
+          <li>Method MR312 17x8.5, 0 mm offset wheels</li>
+          <li>BFG LT285/70R17 tires (33-inch class)</li>
+          <li>Five replacement BFG tires installed in 2025</li>
+          <li>Automatic tire deflators configured around 28 PSI / 20 PSI</li>
+        </ul>
+
+        <h3>Steering</h3>
+        <ul>
+          <li>RockJock Currectlync steering system</li>
+          <li>FOX steering mounting hardware</li>
+          <li>Alignment / toe corrections performed with steering and suspension work</li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Armor / Body Protection</h3>
+        <ul>
+          <li>LoD front bumper, self-installed</li>
+          <li>LoD Destroyer Shorty rear bumper</li>
+          <li>LoD rock sliders, self-installed</li>
+          <li>LoD rear-light / parking-sensor / license-plate hardware</li>
+          <li>Front bumper frame tie-in brackets and bolt-on skid</li>
+        </ul>
+
+        <h3>Lighting / Electrical</h3>
+        <ul>
+          <li>Switch-Pros SP9100 8-switch programmable power system</li>
+          <li>Overhead / rear-view-mirror-area Switch-Pros mount</li>
+          <li>Baja Designs A-pillar lights</li>
+          <li>Baja Designs amber bumper pods</li>
+          <li>Baja Designs 4-light rock-light kit</li>
+          <li>Baja Designs flush-mount rear / reverse lights</li>
+          <li>4-foot LED whip with quick-release mount</li>
+        </ul>
+
+        <h3>Communications / Recovery</h3>
+        <ul>
+          <li>Rugged Radios Jeep JL/JLU GMRS package</li>
+          <li>TeraFlex CB antenna / flag mount</li>
+          <li>Recovery shackles</li>
+          <li>LoD Roadmaster tow-bar adapters</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div>
+        <h3>Exhaust / Reliability</h3>
+        <ul>
+          <li>CORSA Touring axle-back exhaust</li>
+          <li>Black rear-facing turn-downs</li>
+          <li>Odyssey ODS-AGM14 auxiliary battery</li>
+          <li>Odyssey ODP-AGM48H6L3 main battery</li>
+          <li>Reusable K&amp;N engine air filter</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Brakes</h3>
+        <ul>
+          <li>PowerStop Z36 Truck &amp; Tow front brake upgrade — installed</li>
+        </ul>
+        <div class="note">The PowerStop upgrade is confirmed complete, but its final standalone installed cost is not included in the documented $22,757.83 total because the available record did not cleanly separate the brake cost from other maintenance work.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Documented Spending History</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Date / Source</th>
+          <th>Major Work</th>
+          <th style="text-align:right">Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Jul 2022 • ORW 50-141713-1</td>
+          <td>FOX shocks, Method wheels, five BFG tires, mounting/balancing and related hardware</td>
+          <td class="cost">$4,773.01</td>
+        </tr>
+        <tr>
+          <td>Jan 2024 • ORW 50-155166-2</td>
+          <td>LoD rear bumper, rear lighting, FOX steering stabilizer, rear FOX bump-stop hardware</td>
+          <td class="cost">$4,462.03</td>
+        </tr>
+        <tr>
+          <td>Feb 2024 • ORW 50-155524</td>
+          <td>Spacer lift, shock extensions, rear sway-bar component, alignment / toe correction</td>
+          <td class="cost">$914.21</td>
+        </tr>
+        <tr>
+          <td>Feb 2024 • ORW 50-155577-1</td>
+          <td>Switch-Pros, Baja Designs lighting, rock lights, whip, antenna / flag mount, shackles</td>
+          <td class="cost">$4,667.95</td>
+        </tr>
+        <tr>
+          <td>Mar 2024 • ORW 50-156273-1</td>
+          <td>Rugged Radios GMRS package and installation</td>
+          <td class="cost">$752.11</td>
+        </tr>
+        <tr>
+          <td>Aug 2024 • ORW 50-159042-1</td>
+          <td>CORSA Touring axle-back exhaust with black rear-facing turn-downs</td>
+          <td class="cost">$1,205.89</td>
+        </tr>
+        <tr>
+          <td>Dec 2024 • ORW 50-161446-1</td>
+          <td>Odyssey main + auxiliary AGM battery setup and installation</td>
+          <td class="cost">$737.38</td>
+        </tr>
+        <tr>
+          <td>May 2025 • 4WP 28-002869-1</td>
+          <td>Five BFG replacement tires, RockJock Currectlync, FOX hardware, alignment, tire deflators</td>
+          <td class="cost">$3,412.73</td>
+        </tr>
+        <tr>
+          <td>Dec 2020 • LoD Order 100003489</td>
+          <td>LoD Signature Series 4-door rock sliders</td>
+          <td class="cost">$729.52</td>
+        </tr>
+        <tr>
+          <td>Mar 2021 • LoD Invoice 16632</td>
+          <td>Front bumper, frame tie-ins and front bolt-on skid</td>
+          <td class="cost">$945.00</td>
+        </tr>
+        <tr>
+          <td>Mar 2021 • LoD Invoice 16642</td>
+          <td>Roadmaster tow-bar adapters and front license-plate under-mount</td>
+          <td class="cost">$158.00</td>
+        </tr>
+        <tr class="total">
+          <td colspan="2">Documented Build Spend</td>
+          <td class="cost">$22,757.83</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note good"><strong>Documented all-in investment:</strong> $42,500 actual Jeep purchase price + $22,757.83 documented build spend = <strong>$65,257.83</strong>.</div>
+  </section>
+
+  <section>
+    <h2>Known Items Not Included in the Documented Spend Total</h2>
+    <ul>
+      <li>PowerStop Z36 brake upgrade final standalone cost</li>
+      <li>VIAIR 400P portable air compressor</li>
+      <li>K&amp;N filter / cleaning supplies</li>
+      <li>Camping / sleeping setup and blackout window shades</li>
+      <li>Cooler, interior overland lighting, and miscellaneous camping / recovery gear</li>
+      <li>Any other owner-installed accessories for which a final receipt has not been captured</li>
+    </ul>
+    <div class="note">Because these items are not fully priced in the available records, the true lifetime cash invested in the Jeep is higher than $65,257.83.</div>
+  </section>
+
+  <section>
+    <h2>Build Status / Open Verification Items</h2>
+    <ul>
+      <li><strong>MetalCloak UnderCloak 6360:</strong> was quoted / planned, but the supplied completed transaction shows it at $0 and does not document completed installation.</li>
+      <li><strong>FOX front hydraulic bump stops (883-02-167):</strong> were planned / quoted but are not documented as completed.</li>
+      <li><strong>PowerStop Z36:</strong> confirmed installed, but the final isolated cost should be added when a receipt is available.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Source Record</h2>
+    <ul>
+      <li>Original Jeep window sticker — factory equipment and $42,625 MSRP</li>
+      <li>Owner-confirmed actual Jeep purchase price — $42,500</li>
+      <li>Off Road Warehouse invoices: 50-141713-1, 50-155166-2, 50-155524, 50-155577-1, 50-156273-1, 50-159042-1, 50-161446-1</li>
+      <li>4 Wheel Parts invoice: 28-002869-1</li>
+      <li>LoD Offroad order 100003489 and invoices 16632 / 16642</li>
+      <li>Jeep Advisor build inventory confirming installed / planned component status</li>
+    </ul>
+  </section>
+
+  <div class="footer">Prepared September 7, 2026 • Shane's 2021 Jeep Wrangler Build</div>
+</div>
+</body>
+</html>
